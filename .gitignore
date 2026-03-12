@@ -139,3 +139,13 @@ Thumbs.db
 
 # UV lock files (if not wanted, but usually committed)
 # uv.lock
+
+# ---------------------------------------------------------------------------
+# Custom data directories
+# If you start storing large or sensitive datasets in a `data/` folder,
+# either add an explicit entry or uncomment the line below.  The repo
+# currently only has documentation under `RagWithLlamaindex/project/data`,
+# so keeping that tracked is fine.
+#
+# data/
+# ---------------------------------------------------------------------------

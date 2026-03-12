@@ -1,0 +1,23 @@
+[project]
+name = "project"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "certifi>=2026.2.25",
+    "dotenv>=0.9.9",
+    "fastapi>=0.135.1",
+    "gradio>=6.9.0",
+    "llama-index>=0.14.16",
+    "llama-index-embeddings-cohere>=0.7.0",
+    "llama-index-llms-cohere>=0.7.1",
+    "llama-index-vector-stores-pinecone>=0.7.1",
+    "openai>=2.26.0",
+    "pinecone-client>=6.0.0",
+    "pip-system-certs>=5.3",
+    "pydantic>=2.12.5",
+    "pyreadline3>=3.5.4",
+    "python-dotenv>=1.2.2",
+    "uv>=0.10.9",
+]

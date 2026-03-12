@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks - Task Manager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📋 Task Manager</h1>
+            <a href="/" class="btn btn-secondary">← Back to All</a>
+        </header>
+
+        <div class="tasks-section">
+            <h2>Filtered Tasks</h2>
+            <div id="tasksList" class="tasks-list">
+                {% if tasks %}
+                    {% for task in tasks %}
+                        <div class="task-item priority-{{ task.priority }}" data-task-id="{{ task.id }}">
+                            <div class="task-header">
+                                <input type="checkbox" class="task-checkbox" 
+                                    {% if task.completed %}checked{% endif %}
+                                    onchange="toggleTask('{{ task.id }}')">
+                                <div class="task-info">
+                                    <h3 class="task-title {% if task.completed %}completed{% endif %}">{{ task.title }}</h3>
+                                    <p class="task-description">{{ task.description }}</p>
+                                    <div class="task-meta">
+                                        <span class="task-priority priority-{{ task.priority }}">{{ task.priority | upper }}</span>
+                                        <span class="task-status {% if task.completed %}completed{% else %}pending{% endif %}">
+                                            {{ 'Completed' if task.completed else 'Pending' }}
+                                        </span>
+                                        <span class="task-date">{{ task.created_at[:10] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="task-actions">
+                                <button class="btn btn-sm btn-edit" onclick="editTaskModal('{{ task.id }}', '{{ task.title }}', '{{ task.description }}', '{{ task.priority }}')">Edit</button>
+                                <button class="btn btn-sm btn-delete" onclick="deleteTask('{{ task.id }}')">Delete</button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="no-tasks">No tasks found. ✨</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h2>Edit Task</h2>
+            <div class="form-group">
+                <input type="hidden" id="editTaskId">
+                <input type="text" id="editTaskTitle" placeholder="Task title..." class="input-field">
+                <textarea id="editTaskDescription" placeholder="Description..." class="input-field textarea"></textarea>
+                <select id="editTaskPriority" class="input-field priority-select">
+                    <option value="low">Low Priority</option>
+                    <option value="medium">Medium Priority</option>
+                    <option value="high">High Priority</option>
+                    <option value="critical">Critical Priority</option>
+                </select>
+                <div class="form-row">
+                    <button onclick="saveTaskEdit()" class="btn btn-primary">Save</button>
+                    <button onclick="closeEditModal()" class="btn btn-secondary">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
