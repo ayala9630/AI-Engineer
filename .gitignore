@@ -137,6 +137,9 @@ Thumbs.db
 # Gradio cache
 .gradio/
 
+# Vector Database
+chroma_db/
+
 # UV lock files (if not wanted, but usually committed)
 # uv.lock
 

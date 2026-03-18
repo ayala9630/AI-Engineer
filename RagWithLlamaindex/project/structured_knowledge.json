@@ -1,0 +1,628 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-03-15T20:48:11.472023+00:00",
+  "items": {
+    "decisions": [
+      {
+        "title": "Use Flask",
+        "summary": "The web interface and REST API are built using the Flask framework.",
+        "tags": [
+          "backend",
+          "web framework"
+        ],
+        "id": "dec-001",
+        "source_file": "app.instructions.md"
+      },
+      {
+        "title": "Use Jinja2",
+        "summary": "Jinja2 is used for HTML templating.",
+        "tags": [
+          "templating",
+          "html"
+        ],
+        "id": "dec-002",
+        "source_file": "app.instructions.md"
+      },
+      {
+        "title": "Use JSON",
+        "summary": "JSON is used for API responses.",
+        "tags": [
+          "api",
+          "data format"
+        ],
+        "id": "dec-003",
+        "source_file": "app.instructions.md"
+      },
+      {
+        "title": "Use SQLite",
+        "summary": "SQLite is used for persistence via the TaskDatabase.",
+        "tags": [
+          "database",
+          "persistence"
+        ],
+        "id": "dec-004",
+        "source_file": "app.instructions.md"
+      },
+      {
+        "title": "Use SQLite",
+        "summary": "The database uses SQLite for its operations.",
+        "tags": [
+          "database",
+          "sqlite"
+        ],
+        "id": "dec-005",
+        "source_file": "database.instructions.md"
+      },
+      {
+        "title": "Use dataclass for Task",
+        "summary": "The Task class is defined using the @dataclass decorator for structured data.",
+        "tags": [
+          "dataclass",
+          "data structure"
+        ],
+        "id": "dec-006",
+        "source_file": "task.instructions.md"
+      },
+      {
+        "title": "CSS Guidelines",
+        "summary": "Provides all decisions and conventions for CSS styling used in the Task Manager project",
+        "tags": [
+          "css",
+          "styling",
+          "task manager"
+        ],
+        "id": "dec-007",
+        "source_file": "css-guidelines.prompt.md"
+      },
+      {
+        "title": "Use Flask for web application",
+        "summary": "The web application is built using the Flask framework.",
+        "tags": [
+          "web",
+          "framework"
+        ],
+        "id": "dec-008",
+        "source_file": "ARCHITECTURE.md"
+      },
+      {
+        "title": "Use SQLite for database",
+        "summary": "SQLite is chosen as the database management system.",
+        "tags": [
+          "database",
+          "sqlite"
+        ],
+        "id": "dec-009",
+        "source_file": "ARCHITECTURE.md"
+      },
+      {
+        "title": "Use Jinja2 for HTML templates",
+        "summary": "Jinja2 is used for rendering HTML templates.",
+        "tags": [
+          "templates",
+          "html"
+        ],
+        "id": "dec-010",
+        "source_file": "ARCHITECTURE.md"
+      },
+      {
+        "title": "Use dataclasses for data models",
+        "summary": "Implement data models using dataclasses",
+        "tags": [
+          "data models",
+          "design patterns"
+        ],
+        "id": "dec-011",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "title": "Implement factory patterns for object creation",
+        "summary": "Use factory patterns for object creation",
+        "tags": [
+          "object creation",
+          "design patterns"
+        ],
+        "id": "dec-012",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "title": "Use context managers for resource cleanup",
+        "summary": "Implement resource cleanup using context managers",
+        "tags": [
+          "resource cleanup",
+          "design patterns"
+        ],
+        "id": "dec-013",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "title": "Apply dependency injection for testability",
+        "summary": "Use dependency injection to improve testability",
+        "tags": [
+          "testability",
+          "design patterns"
+        ],
+        "id": "dec-014",
+        "source_file": "copilot-instructions.md"
+      }
+    ],
+    "rules": [
+      {
+        "rule": "Write tests",
+        "scope": "testing",
+        "notes": "Test endpoints with various scenarios: valid input, missing required fields, invalid IDs, database errors, filter combinations, and concurrent requests.",
+        "id": "rule-001",
+        "source_file": "app.instructions.md"
+      },
+      {
+        "rule": "Input Validation",
+        "scope": "request handling",
+        "notes": "When receiving task data via POST/PUT, validate required fields, check priority and status are in valid sets, use Task dataclass for model validation, and return 400 Bad Request with error details if invalid.",
+        "id": "rule-002",
+        "source_file": "app.instructions.md"
+      },
+      {
+        "rule": "Error Handling",
+        "scope": "error management",
+        "notes": "Use try-except blocks for error handling, return appropriate HTTP status codes, and don't expose internal error details to the client.",
+        "id": "rule-003",
+        "source_file": "app.instructions.md"
+      },
+      {
+        "rule": "Performance Optimization",
+        "scope": "performance",
+        "notes": "Cache statistics endpoint results, limit task list pagination, use database indexes for frequently filtered columns, avoid N+1 queries by prefetching related data, and compress JSON responses for large lists.",
+        "id": "rule-004",
+        "source_file": "app.instructions.md"
+      },
+      {
+        "rule": "Security Measures",
+        "scope": "security",
+        "notes": "Set appropriate CORS headers, validate and sanitize all user input, use werkzeug security utilities for passwords, and log error details server-side.",
+        "id": "rule-005",
+        "source_file": "app.instructions.md"
+      },
+      {
+        "rule": "Use Parameterized Queries",
+        "scope": "querying",
+        "notes": "Always use parameterized queries with ? placeholders to prevent SQL injection.",
+        "id": "rule-006",
+        "source_file": "database.instructions.md"
+      },
+      {
+        "rule": "Avoid String Formatting for SQL",
+        "scope": "querying",
+        "notes": "Do not use string formatting or f-strings for SQL queries.",
+        "id": "rule-007",
+        "source_file": "database.instructions.md"
+      },
+      {
+        "rule": "Centralize Row Mapping",
+        "scope": "querying",
+        "notes": "Use the _row_to_task() helper to convert database rows to objects, centralizing mapping logic.",
+        "id": "rule-008",
+        "source_file": "database.instructions.md"
+      },
+      {
+        "rule": "Use CREATE TABLE IF NOT EXISTS",
+        "scope": "schema",
+        "notes": "Use CREATE TABLE IF NOT EXISTS for idempotent table initialization.",
+        "id": "rule-009",
+        "source_file": "database.instructions.md"
+      },
+      {
+        "rule": "Define Constraints Explicitly",
+        "scope": "schema",
+        "notes": "Define all constraints explicitly when creating tables.",
+        "id": "rule-010",
+        "source_file": "database.instructions.md"
+      },
+      {
+        "rule": "Include Meaningful Column Comments",
+        "scope": "schema",
+        "notes": "Include meaningful column comments, especially when using migrations.",
+        "id": "rule-011",
+        "source_file": "database.instructions.md"
+      },
+      {
+        "rule": "Use ALTER TABLE for Adding New Columns",
+        "scope": "schema",
+        "notes": "Use ALTER TABLE in the create_schema() function when adding new columns to the tasks table.",
+        "id": "rule-012",
+        "source_file": "database.instructions.md"
+      },
+      {
+        "rule": "Use IF NOT EXISTS for Optional Columns",
+        "scope": "schema",
+        "notes": "Use the IF NOT EXISTS clause when adding optional columns to the tasks table.",
+        "id": "rule-013",
+        "source_file": "database.instructions.md"
+      },
+      {
+        "rule": "Update Row Mapping for New Fields",
+        "scope": "schema",
+        "notes": "Update the _row_to_task() function to map new fields when adding them to the tasks table.",
+        "id": "rule-014",
+        "source_file": "database.instructions.md"
+      },
+      {
+        "rule": "Update INSERT/UPDATE Statements",
+        "scope": "schema",
+        "notes": "Update the save_task() function's INSERT/UPDATE statement when adding new fields to the tasks table.",
+        "id": "rule-015",
+        "source_file": "database.instructions.md"
+      },
+      {
+        "rule": "Document Schema Changes",
+        "scope": "schema",
+        "notes": "Document any changes made to the schema.",
+        "id": "rule-016",
+        "source_file": "database.instructions.md"
+      },
+      {
+        "rule": "Create Indexes for Frequently Queried Columns",
+        "scope": "performance",
+        "notes": "Create indexes on frequently queried columns (e.g., id, status, priority) to improve performance.",
+        "id": "rule-017",
+        "source_file": "database.instructions.md"
+      },
+      {
+        "rule": "Use Transactions for Batch Operations",
+        "scope": "performance",
+        "notes": "Use transactions for batch operations to ensure data integrity.",
+        "id": "rule-018",
+        "source_file": "database.instructions.md"
+      },
+      {
+        "rule": "Commit Frequently but Not Excessively",
+        "scope": "performance",
+        "notes": "Commit transactions frequently but not excessively to balance performance and data integrity.",
+        "id": "rule-019",
+        "source_file": "database.instructions.md"
+      },
+      {
+        "rule": "Use VACUUM for Large Databases",
+        "scope": "performance",
+        "notes": "Use the VACUUM command periodically on large databases to optimize space usage and performance.",
+        "id": "rule-020",
+        "source_file": "database.instructions.md"
+      },
+      {
+        "rule": "Use In-Memory SQLite for Unit Tests",
+        "scope": "testing",
+        "notes": "Use in-memory SQLite (:memory:) for unit tests to isolate test environments.",
+        "id": "rule-021",
+        "source_file": "database.instructions.md"
+      },
+      {
+        "rule": "Test Transaction Rollback Behavior",
+        "scope": "testing",
+        "notes": "Test the behavior of transaction rollbacks to ensure data integrity.",
+        "id": "rule-022",
+        "source_file": "database.instructions.md"
+      },
+      {
+        "rule": "Test Constraint Violations",
+        "scope": "testing",
+        "notes": "Test for constraint violations to ensure data integrity.",
+        "id": "rule-023",
+        "source_file": "database.instructions.md"
+      },
+      {
+        "rule": "Verify Data Integrity After Operations",
+        "scope": "testing",
+        "notes": "Verify data integrity after database operations to ensure consistency.",
+        "id": "rule-024",
+        "source_file": "database.instructions.md"
+      },
+      {
+        "rule": "Follow Task class structure guidelines",
+        "scope": "task_manager/task.py",
+        "notes": "When modifying the Task class, adhere to the provided structure guidelines.",
+        "id": "rule-025",
+        "source_file": "task.instructions.md"
+      },
+      {
+        "rule": "Validate priority values",
+        "scope": "task_manager/task.py",
+        "notes": "Always validate priority against the allowed values: 'low', 'medium', 'high', 'critical'.",
+        "id": "rule-026",
+        "source_file": "task.instructions.md"
+      },
+      {
+        "rule": "Maintain consistency between status and completed fields",
+        "scope": "task_manager/task.py",
+        "notes": "Keep the 'status' and 'completed' fields in sync for backward compatibility.",
+        "id": "rule-027",
+        "source_file": "task.instructions.md"
+      },
+      {
+        "rule": "Handle tag management consistently",
+        "scope": "task_manager/task.py",
+        "notes": "Check for duplicates, maintain order, and store tags as a JSON array in the database.",
+        "id": "rule-028",
+        "source_file": "task.instructions.md"
+      },
+      {
+        "rule": "Use asdict() for serialization",
+        "scope": "task_manager/task.py",
+        "notes": "All public methods for converting Task to/from dict must use asdict() from the dataclasses module.",
+        "id": "rule-029",
+        "source_file": "task.instructions.md"
+      },
+      {
+        "rule": "Use BEM-inspired class naming",
+        "scope": "class naming",
+        "notes": "Keep selectors simple and avoid overly specific rules",
+        "id": "rule-030",
+        "source_file": "css-guidelines.prompt.md"
+      },
+      {
+        "rule": "Use system font stack",
+        "scope": "typography",
+        "notes": "Base font size 16px, headings 1.5–2x",
+        "id": "rule-031",
+        "source_file": "css-guidelines.prompt.md"
+      },
+      {
+        "rule": "Use Flexbox for layout",
+        "scope": "layout",
+        "notes": "Responsive breakpoints at 600px and 900px",
+        "id": "rule-032",
+        "source_file": "css-guidelines.prompt.md"
+      },
+      {
+        "rule": "Use utility classes for spacing",
+        "scope": "spacing",
+        "notes": "Use a 8px scale (`.m-1` = 8px margin, `.p-2` = 16px padding, etc)",
+        "id": "rule-033",
+        "source_file": "css-guidelines.prompt.md"
+      },
+      {
+        "rule": "Use `.button` class with modifiers for buttons",
+        "scope": "buttons",
+        "notes": "Use `cursor: pointer;` and `transition: background-color 0.2s`",
+        "id": "rule-034",
+        "source_file": "css-guidelines.prompt.md"
+      },
+      {
+        "rule": "Use `.input` class for form inputs",
+        "scope": "forms",
+        "notes": "Full width, 8px padding, border-radius 4px, border `1px solid #ccc`",
+        "id": "rule-035",
+        "source_file": "css-guidelines.prompt.md"
+      },
+      {
+        "rule": "Use `@media (max-width: 600px)` for responsive design",
+        "scope": "responsive design",
+        "notes": "Stack columns and make buttons full-width",
+        "id": "rule-036",
+        "source_file": "css-guidelines.prompt.md"
+      },
+      {
+        "rule": "Use SVG icons inline or via `<img>` with class `.icon`",
+        "scope": "icons",
+        "notes": "Fixed size 24px",
+        "id": "rule-037",
+        "source_file": "css-guidelines.prompt.md"
+      },
+      {
+        "rule": "Structure CSS with variables for easy switching to dark mode",
+        "scope": "dark mode",
+        "notes": "Not currently supported",
+        "id": "rule-038",
+        "source_file": "css-guidelines.prompt.md"
+      },
+      {
+        "rule": "Follow layered architecture",
+        "scope": "architecture",
+        "notes": "The project follows a layered architecture with Presentation, Business Logic, Data Model, and Data Persistence layers.",
+        "id": "rule-039",
+        "source_file": "ARCHITECTURE.md"
+      },
+      {
+        "rule": "Use dataclasses for data models",
+        "scope": "data_models",
+        "notes": "The Task data structure is defined using dataclasses with type hints.",
+        "id": "rule-040",
+        "source_file": "ARCHITECTURE.md"
+      },
+      {
+        "rule": "Implement validation at multiple layers",
+        "scope": "validation",
+        "notes": "Input validation is performed at the Task dataclass, TaskManager, API endpoints, and database levels.",
+        "id": "rule-041",
+        "source_file": "ARCHITECTURE.md"
+      },
+      {
+        "rule": "Handle errors with context",
+        "scope": "error_handling",
+        "notes": "Errors are propagated with context, allowing for better debugging and handling.",
+        "id": "rule-042",
+        "source_file": "ARCHITECTURE.md"
+      },
+      {
+        "rule": "Write unit tests for new methods",
+        "scope": "testing",
+        "notes": "Write unit tests for new methods to ensure functionality",
+        "id": "rule-043",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "rule": "Test edge cases",
+        "scope": "testing",
+        "notes": "Test edge cases like empty inputs, None values, and invalid data",
+        "id": "rule-044",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "rule": "Aim for >80% code coverage",
+        "scope": "testing",
+        "notes": "Ensure high test coverage to catch potential issues",
+        "id": "rule-045",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "rule": "Use pytest as the test framework",
+        "scope": "testing",
+        "notes": "Utilize pytest for testing",
+        "id": "rule-046",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "rule": "Follow PEP 8 guidelines",
+        "scope": "code style",
+        "notes": "Adhere to PEP 8 guidelines for consistent code style",
+        "id": "rule-047",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "rule": "Max line length: 100 characters",
+        "scope": "code style",
+        "notes": "Limit line length to improve readability",
+        "id": "rule-048",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "rule": "Use meaningful variable names",
+        "scope": "code style",
+        "notes": "Avoid single-letter variable names except for loop counters",
+        "id": "rule-049",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "rule": "Use type hints throughout",
+        "scope": "code style",
+        "notes": "Include type hints for better code documentation and type safety",
+        "id": "rule-050",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "rule": "Always use parameterized queries",
+        "scope": "database operations",
+        "notes": "Prevent SQL injection by using parameterized queries",
+        "id": "rule-051",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "rule": "Wrap database calls in try-catch blocks",
+        "scope": "database operations",
+        "notes": "Handle database errors gracefully",
+        "id": "rule-052",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "rule": "Implement connection cleanup in finally blocks",
+        "scope": "database operations",
+        "notes": "Ensure proper resource cleanup",
+        "id": "rule-053",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "rule": "Log database errors with context",
+        "scope": "database operations",
+        "notes": "Provide detailed error logs for debugging",
+        "id": "rule-054",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "rule": "Use database indexes for frequently queried columns",
+        "scope": "performance considerations",
+        "notes": "Improve query performance with indexes",
+        "id": "rule-055",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "rule": "Batch database operations when possible",
+        "scope": "performance considerations",
+        "notes": "Optimize database operations by batching",
+        "id": "rule-056",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "rule": "Limit in-memory task lists to reasonable sizes",
+        "scope": "performance considerations",
+        "notes": "Manage memory usage for task lists",
+        "id": "rule-057",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "rule": "Cache read-heavy operations when appropriate",
+        "scope": "performance considerations",
+        "notes": "Improve performance with caching",
+        "id": "rule-058",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "rule": "Always validate input before persisting to database",
+        "scope": "data integrity",
+        "notes": "Ensure data integrity by validating input",
+        "id": "rule-059",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "rule": "Use explicit try-catch blocks with meaningful error messages",
+        "scope": "error handling",
+        "notes": "Handle errors explicitly with clear messages",
+        "id": "rule-060",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "rule": "Use type hints on all functions and class methods",
+        "scope": "type safety",
+        "notes": "Enhance type safety with type hints",
+        "id": "rule-061",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "rule": "Keep functions focused on single responsibilities",
+        "scope": "modularity",
+        "notes": "Promote modularity and maintainability",
+        "id": "rule-062",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "rule": "Add docstrings to all public methods",
+        "scope": "documentation",
+        "notes": "Improve code documentation with docstrings",
+        "id": "rule-063",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "rule": "Classes: PascalCase",
+        "scope": "naming conventions",
+        "notes": "Use PascalCase for class names",
+        "id": "rule-064",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "rule": "Functions/methods: snake_case",
+        "scope": "naming conventions",
+        "notes": "Use snake_case for function and method names",
+        "id": "rule-065",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "rule": "Constants: UPPER_SNAKE_CASE",
+        "scope": "naming conventions",
+        "notes": "Use UPPER_SNAKE_CASE for constant names",
+        "id": "rule-066",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "rule": "Private members: prefix with underscore",
+        "scope": "naming conventions",
+        "notes": "Prefix private member names with an underscore",
+        "id": "rule-067",
+        "source_file": "copilot-instructions.md"
+      },
+      {
+        "rule": "Write tests",
+        "scope": "testing",
+        "notes": "Aim for 80% coverage",
+        "id": "rule-068",
+        "source_file": "FEATURE_GUIDE.md"
+      }
+    ],
+    "warnings": []
+  }
+}
