@@ -16,6 +16,11 @@ from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.types import Command
 from tavily import TavilyClient
 
+from load_prompt import load_prompt_from_file
+from ui_components import (
+    display_summary_with_sources,
+)
+
 checkpointer = InMemorySaver()
 
 
@@ -44,10 +49,8 @@ def init_agent():
 
     human_middleware = HumanInTheLoopMiddleware(interrupt_on={"internet_search": True})
 
-    research_instructions = (
-        "You are an expert researcher. Your job is to conduct thorough research and then write a polished report. "
-        "You have access to an internet search tool as your primary means of gathering information."
-    )
+    # טעינת System Prompt מהקובץ
+    research_instructions = load_prompt_from_file("collect_information_prompt.md")
 
     model = ChatGoogleGenerativeAI(model="gemini-3.1-flash-lite")
     return create_agent(
@@ -103,9 +106,19 @@ def add_chat_message(role, content):
 def render_chat_history():
     for message in st.session_state.history:
         if message["role"] == "user":
-            st.chat_message("user").write(message["content"])
+            with st.chat_message("user"):
+                st.markdown(f"**{message['content']}**")
         elif message["role"] == "assistant":
-            st.chat_message("assistant").write(message["content"])
+            with st.chat_message("assistant"):
+                content = message["content"]
+                
+                # אם זה סיכום עם כותרות ומקורות, הציג בצורה משופרת
+                if "###" in content or "**מקורות" in content or "מקורות" in content:
+                    from ui_components import display_summary_with_sources
+                    display_summary_with_sources(content)
+                else:
+                    # הצגה רגילה של markdown
+                    st.markdown(content)
         else:
             st.info(message["content"])
 
@@ -172,32 +185,84 @@ def handle_resume(selected_labels):
 
 
 def main():
-    st.set_page_config(page_title="Agent 2 UI", layout="wide")
-    st.title("Agent 2 — ממשק מחקר עם HITL")
-    st.markdown("הקלד שאלה, ואז בחר מקורות בשלב הביניים כדי להמשיך.")
+    st.set_page_config(page_title="Research Agent | AI MiniNotebookLM", layout="wide")
+    
+    # תיאור כללי
+    st.title("🤖 Research Agent — מחקר בעזרת AI")
+    st.markdown("""
+    **ממשק חכם לאיסוף מידע על כל נושא** 
+    
+    עזור לנו להבין את הנושא שלך על ידי הקלדת שאלה. ה-Agent יבצע חיפוש באינטרנט,
+    יאסוף מקורות רלוונטיים, ואז — עם הסכמתך — יכין סיכום מקיף.
+    """)
+    
+    st.divider()
 
     get_agent()
 
-    with st.form("query_form", clear_on_submit=True):
-        query = st.text_input("שאלה", key="query_input")
-        submitted = st.form_submit_button("שלח")
+    # ממשק הזנת השאלה
+    st.subheader("❓ מה את/ה רוצה לחקור?")
+    
+    col1, col2 = st.columns([0.85, 0.15])
+    with col1:
+        query = st.text_input(
+            "הקלד את השאלה",
+            key="query_input",
+            placeholder="לדוגמה: 'מצא מידע עדכני על בינה מלאכותית בחודשים האחרונים'",
+            label_visibility="collapsed"
+        )
+    with col2:
+        submitted = st.button("🔍 חפש", use_container_width=True)
 
     if submitted and query:
-        handle_user_query(query)
+        with st.spinner("⏳ ה-Agent חוקר..."):
+            handle_user_query(query)
+    
+    st.divider()
 
     if st.session_state.history:
+        st.subheader("💬 שיחה וממצאים")
         render_chat_history()
+    else:
+        st.info("💡 הקלד שאלה כדי להתחיל את המחקר")
 
     if st.session_state.interrupt:
-        st.markdown("### בחירת מקורות עבור HITL")
+        st.divider()
+        st.subheader("🔍 שלב בחירת המקורות")
+        st.markdown("""
+        ה-Agent מצא מקורות רלוונטיים. בחר אילו מהם תרצה להשתמש להמשך המחקר:
+        """)
+        
+        # הצגת אפשרויות בחירה יפה
         options = [label for label, _ in st.session_state.interrupt_items]
-        selected = st.multiselect("בחר מקורות מהרשימה", options)
+        
+        col1, col2 = st.columns([0.7, 0.3])
+        with col1:
+            selected = st.multiselect(
+                "📚 בחר מקורות לביקורת",
+                options,
+                help="בחר את המקורות שתרצה שה-Agent יעבוד איתם"
+            )
+        
+        with col2:
+            st.metric(
+                label="מקורות שנבחרו",
+                value=len(selected)
+            )
 
-        with st.expander("צפה בפרטי ההפרעה", expanded=False):
+        with st.expander("🔬 צפה בפרטי הטכניים", expanded=False):
             st.json(getattr(st.session_state.interrupt, "value", str(st.session_state.interrupt)))
 
-        if st.button("המשך עם הבחירות", key="resume_button"):
-            handle_resume(selected)
+        col1, col2, col3 = st.columns([0.3, 0.3, 0.4])
+        with col1:
+            if st.button("✅ המשך עם הבחירות", key="resume_button", use_container_width=True):
+                handle_resume(selected)
+        with col2:
+            if st.button("⚡ בחר הכל", key="select_all_button", use_container_width=True):
+                st.session_state.selected_all = True
+                handle_resume(options)
+        with col3:
+            st.caption("או עדכן את הבחירה ולחץ המשך")
 
 
 if __name__ == "__main__":

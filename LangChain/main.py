@@ -1,6 +1,9 @@
-def main():
-    print("Hello from github-mentor!")
-
+import subprocess
+import sys
 
 if __name__ == "__main__":
-    main()
+    # הרץ את ה-Streamlit UI
+    subprocess.run(
+        [sys.executable, "-m", "streamlit", "run", "agent.py"],
+        cwd="."
+    )
